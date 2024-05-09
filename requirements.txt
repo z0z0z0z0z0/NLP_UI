@@ -1,1 +1,5 @@
-
+streamlit
+streamlit_pdf_viewer
+PyPDF2
+io
+transformers
