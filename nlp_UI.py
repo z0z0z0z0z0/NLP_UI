@@ -96,7 +96,7 @@ with tab2:
         question_input = st.text_input("Question:", value=ss.question_input)
         
         # Store the question input in session state
-        ss.question_input = question_input
+        #ss.question_input = question_input
         
         # Check if the question is not empty
         if question_input:
