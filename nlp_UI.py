@@ -26,6 +26,7 @@ st.title("PDF Question Answering")
 # Create tabs
 tab1, tab2 = st.tabs(['Upload PDF', 'QA Model'])
 
+
 # Tab 1 - PDF Viewer
 with tab1:
     st.subheader("PDF Viewer")
@@ -92,11 +93,11 @@ with tab2:
         for page in pdf_reader.pages:
             context_input += page.extract_text()
         
-        # Get the user question
-        question_input = st.text_input("Question:", value=ss.question_input)
         
-        # Store the question input in session state
-        #ss.question_input = question_input
+        # Get the user question
+        question_input = st.text_input("Question:",value = ss.question_input)
+
+
         
         # Check if the question is not empty
         if question_input:
