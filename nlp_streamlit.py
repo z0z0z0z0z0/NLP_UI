@@ -4,6 +4,7 @@ import PyPDF2
 import io
 from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 import time
+from autocorrect import Speller
 
 # Load RoBERTa model and tokenizer
 model_name = "deepset/roberta-base-squad2"
@@ -92,11 +93,15 @@ def get_answer(question, context):
     return res
 
 
+# Create a Speller object
+spell = Speller(lang='en')
+
 
 if prompt := st.chat_input("What is up?"):
     st.session_state.messages.append({"role": "user", "content": prompt, "avatar": "https://raw.githubusercontent.com/z0z0z0z0z0/icon/main/icons8-avatar-64.png"})
     with st.chat_message("user",avatar='https://raw.githubusercontent.com/z0z0z0z0z0/icon/main/icons8-avatar-64.png'):
         st.markdown(prompt)
+        prompt = spell(prompt)
 
     # Display assistant's responses
     with st.chat_message("assistant",avatar='https://raw.githubusercontent.com/z0z0z0z0z0/icon/main/icons8-bot-64.png'):
