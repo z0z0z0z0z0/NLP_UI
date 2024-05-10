@@ -4,6 +4,10 @@ import PyPDF2
 import io
 from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 import time
+import warnings
+
+# Filter out the FutureWarning
+warnings.filterwarnings("ignore", category=FutureWarning)
 
 # Load RoBERTa model and tokenizer
 model_name = "deepset/roberta-base-squad2"
