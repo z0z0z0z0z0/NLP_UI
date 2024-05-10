@@ -11,7 +11,7 @@ model = AutoModelForQuestionAnswering.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 st.set_page_config(
-    page_title="ChatGPT Clone",
+    page_title="PDF GPT",
     page_icon="🤖",
     layout="wide"
 )
@@ -51,7 +51,7 @@ if uploaded_file:
     # Read PDF contents
     pdf_text = extract_text_from_pdf(uploaded_file)
 
-    summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
+    summarizer = pipeline("summarization", model="philschmid/bart-large-cnn-samsum")
     try:
         summary = summarizer(pdf_text, max_length=250, min_length=25, do_sample=False)
     except Exception as e:
