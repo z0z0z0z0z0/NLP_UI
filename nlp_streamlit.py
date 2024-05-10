@@ -11,8 +11,8 @@ warnings.filterwarnings("ignore", category=FutureWarning)
 
 # Load RoBERTa model and tokenizer
 model_name = "deepset/roberta-base-squad2"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
-model = AutoModelForQuestionAnswering.from_pretrained(model_name)
+model = AutoModelForQuestionAnswering.from_pretrained(model_name, force_download=True)
+tokenizer = AutoTokenizer.from_pretrained(model_name, force_download=True)
 
 st.title("PDF GPT")
 
