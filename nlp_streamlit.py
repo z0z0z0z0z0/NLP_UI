@@ -54,7 +54,7 @@ if uploaded_file:
 
     # Display extracted PDF text in the sidebar
     st.sidebar.subheader("Summary:")
-    #st.sidebar.write(summary[0]["summary_text"])
+    st.sidebar.write(summary[0]["summary_text"])
     
     # Display extracted PDF text in the sidebar
     st.sidebar.subheader("Extracted PDF Text:")
