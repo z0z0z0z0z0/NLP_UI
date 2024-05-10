@@ -12,6 +12,11 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 st.title("PDF GPT")
 
+st.set_page_config(
+    page_title="PDF GPT",
+    page_icon="🤖",
+    layout="wide"
+)
 
 def extract_text_from_pdf(uploaded_file):
     # Read PDF contents
