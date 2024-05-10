@@ -51,7 +51,7 @@ if uploaded_file:
     # Read PDF contents
     pdf_text = extract_text_from_pdf(uploaded_file)
 
-    summarizer = pipeline("summarization", model="philschmid/bart-large-cnn-samsum")
+    summarizer = pipeline("summarization", model="Falconsai/text_summarization")
     try:
         summary = summarizer(pdf_text, max_length=250, min_length=25, do_sample=False)
     except Exception as e:
