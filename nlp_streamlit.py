@@ -37,7 +37,7 @@ st.markdown(
 )
 
 
-summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+
 
 # PDF Upload section
 uploaded_file = st.file_uploader("Upload PDF file", type=['pdf'])
@@ -45,16 +45,16 @@ if uploaded_file:
     # Read PDF contents
     pdf_text = extract_text_from_pdf(uploaded_file)
 
-
-    try:
-        summary = summarizer(pdf_text, max_length=250, min_length=25, do_sample=False)
-    except Exception as e:
-        print("An error occurred while summarizing the article:", e)
-        summary = "Unable to summarize the article due to an error (file too large)."
+    #summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+    # try:
+    #     summary = summarizer(pdf_text, max_length=250, min_length=25, do_sample=False)
+    # except Exception as e:
+    #     print("An error occurred while summarizing the article:", e)
+    #     summary = "Unable to summarize the article due to an error (file too large)."
 
     # Display extracted PDF text in the sidebar
-    st.sidebar.subheader("Summary:")
-    st.sidebar.write(summary[0]["summary_text"])
+    # st.sidebar.subheader("Summary:")
+    # st.sidebar.write(summary[0]["summary_text"])
     
     # Display extracted PDF text in the sidebar
     st.sidebar.subheader("Extracted PDF Text:")
