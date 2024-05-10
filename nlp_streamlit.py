@@ -1,6 +1,5 @@
 import streamlit as st
 import torch
-from transformers import AutoTokenizer, AutoModelForQuestionAnswering
 import PyPDF2
 import io
 from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
