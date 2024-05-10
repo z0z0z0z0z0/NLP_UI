@@ -6,9 +6,9 @@ from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 import time
 
 # Load RoBERTa model and tokenizer
-#model_name = "deepset/roberta-base-squad2"
-#model = AutoModelForQuestionAnswering.from_pretrained(model_name)
-#tokenizer = AutoTokenizer.from_pretrained(model_name)
+model_name = "deepset/roberta-base-squad2"
+model = AutoModelForQuestionAnswering.from_pretrained(model_name)
+tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 st.title("PDF GPT")
 
@@ -43,12 +43,12 @@ if uploaded_file:
     # Read PDF contents
     pdf_text = extract_text_from_pdf(uploaded_file)
 
-    summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
-    try:
-        summary = summarizer(pdf_text, max_length=250, min_length=25, do_sample=False)
-    except Exception as e:
-        print("An error occurred while summarizing the article:", e)
-        summary = "Unable to summarize the article due to an error (file too large)."
+    # summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+    # try:
+    #     summary = summarizer(pdf_text, max_length=250, min_length=25, do_sample=False)
+    # except Exception as e:
+    #     print("An error occurred while summarizing the article:", e)
+    #     summary = "Unable to summarize the article due to an error (file too large)."
 
     # Display extracted PDF text in the sidebar
     st.sidebar.subheader("Summary:")
