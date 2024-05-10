@@ -45,7 +45,7 @@ if uploaded_file:
     # Read PDF contents
     pdf_text = extract_text_from_pdf(uploaded_file)
 
-    summarizer = pipeline("summarization", model="Falconsai/text_summarization")
+    summarizer = pipeline("summarization", model="sshleifer/distilbart-cnn-12-6")
     try:
         summary = summarizer(pdf_text, max_length=250, min_length=25, do_sample=False)
     except Exception as e:
