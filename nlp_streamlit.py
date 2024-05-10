@@ -6,9 +6,9 @@ from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 import time
 
 # Load RoBERTa model and tokenizer
-model_name = "deepset/roberta-base-squad2"
-model = AutoModelForQuestionAnswering.from_pretrained(model_name)
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+#model_name = "deepset/roberta-base-squad2"
+#model = AutoModelForQuestionAnswering.from_pretrained(model_name)
+#tokenizer = AutoTokenizer.from_pretrained(model_name)
 
 st.title("PDF GPT")
 
