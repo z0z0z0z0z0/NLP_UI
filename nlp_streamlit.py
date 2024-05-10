@@ -37,13 +37,15 @@ st.markdown(
 )
 
 
+summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+
 # PDF Upload section
 uploaded_file = st.file_uploader("Upload PDF file", type=['pdf'])
 if uploaded_file:
     # Read PDF contents
     pdf_text = extract_text_from_pdf(uploaded_file)
 
-    summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+
     try:
         summary = summarizer(pdf_text, max_length=250, min_length=25, do_sample=False)
     except Exception as e:
