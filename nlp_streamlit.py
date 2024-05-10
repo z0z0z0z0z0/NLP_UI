@@ -10,9 +10,14 @@ model_name = "deepset/roberta-base-squad2"
 model = AutoModelForQuestionAnswering.from_pretrained(model_name)
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 
+st.set_page_config(
+    page_title="ChatGPT Clone",
+    page_icon="🤖",
+    layout="wide"
+)
+
 st.title("PDF GPT")
 
-st.beta_set_page_config(page_title="PDF GPT", page_icon="🤖", layout="wide")
 
 def extract_text_from_pdf(uploaded_file):
     # Read PDF contents
