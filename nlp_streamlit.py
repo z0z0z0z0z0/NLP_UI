@@ -6,6 +6,12 @@ from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 import time
 from autocorrect import Speller
 
+import warnings
+
+# Ignore all warnings
+warnings.filterwarnings("ignore")
+
+
 # Load RoBERTa model and tokenizer
 model_name = "deepset/roberta-base-squad2"
 model = AutoModelForQuestionAnswering.from_pretrained(model_name)
@@ -29,6 +35,22 @@ def extract_text_from_pdf(uploaded_file):
             pdf_text += page.extract_text().replace('\n', ' ')
     
     return pdf_text
+
+
+# Load question-answering pipeline with custom preprocessing
+def custom_preprocess_function(examples):
+    
+    for example in examples:
+        sentence = example[extracted_text]  # Assuming "context" key for your passage
+        inputs = tokenizer(
+            sentence,
+            truncation=True,
+            return_overflowing_tokens=True,
+            max_length=20,
+            stride=2
+        )
+        example["inputs"] = inputs
+    return examples
 
 
 # Add custom CSS to set the width of the sidebar
@@ -81,7 +103,7 @@ for message in st.session_state.messages:
 
 
 # Load the question-answering pipeline
-nlp = pipeline('question-answering', model=model, tokenizer=tokenizer)
+nlp = pipeline('question-answering', model=model, tokenizer=tokenizer, preprocessing_function=custom_preprocess_function, is_fast=True)
         
 # Function to get predictions for a given question
 def get_answer(question, context):
