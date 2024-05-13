@@ -4,4 +4,3 @@ transformers
 torch
 autocorrect
 pyttsx3
-libespeak
