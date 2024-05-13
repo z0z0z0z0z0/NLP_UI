@@ -94,7 +94,7 @@ if uploaded_file:
     st.sidebar.write(pdf_text)
 
     
-if "messages" not in st.session_state:
+if "messages" not in st.session_state or st.session_state.messages is None:
     st.session_state.messages = []
 
 for message in st.session_state.messages:
