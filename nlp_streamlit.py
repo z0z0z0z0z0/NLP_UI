@@ -65,8 +65,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
+def reset_conversation():
+  st.session_state.messages = None
 
 
+st.sidebar.subheader("Options:")
+st.sidebar.button("Clear chat", on_click=reset_conversation)
 
 # PDF Upload section
 uploaded_file = st.file_uploader("Upload PDF file", type=['pdf'])
