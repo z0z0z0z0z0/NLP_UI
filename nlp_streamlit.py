@@ -5,8 +5,8 @@ import io
 from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 import time
 from autocorrect import Speller
-
 import warnings
+import pyttsx3
 
 # Ignore all warnings
 warnings.filterwarnings("ignore")
@@ -60,38 +60,108 @@ st.markdown(
     .sidebar .sidebar-content {
         width: 500px;
     }
+
+    .stButton>button {
+        background-color: #4CAF50; /* Green background */
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        font-size: 16px;
+        transition-duration: 0.4s;
+        cursor: pointer;
+    }
+    
+    .stButton>button:hover {
+        background-color: #45a049; /* Darker green background on hover */
+    }
     </style>
     """,
     unsafe_allow_html=True
 )
 
+
 def reset_conversation():
-  st.session_state.messages = None
+    st.session_state.messages = None
+
+def textToSpeech(summary):
+    engine = pyttsx3.init()
+    engine.say(summary)
+    engine.runAndWait()
 
 
-st.sidebar.subheader("Options:")
-st.sidebar.button("Clear chat", on_click=reset_conversation)
+previous_uploaded_file = st.session_state.get("previous_uploaded_file")
 
 # PDF Upload section
 uploaded_file = st.file_uploader("Upload PDF file", type=['pdf'])
+
+summary_text=''
+pdf_text =''
+
 if uploaded_file:
-    # Read PDF contents
-    pdf_text = extract_text_from_pdf(uploaded_file)
+    # Check if it's the first time uploading a PDF file
+    if previous_uploaded_file is None:
+        # Perform any necessary initialization
+        # For example, you might want to set previous_uploaded_file to the current uploaded_file
+        st.session_state.previous_uploaded_file = uploaded_file
+            
+    else:
+        # Check if the current uploaded file is different from the previous one
+        if uploaded_file != previous_uploaded_file:
+            # Read PDF contents
+            with st.spinner("Reading PDF....."):
+                pdf_text = extract_text_from_pdf(uploaded_file)
 
-    summarizer = pipeline("summarization", model="Falconsai/text_summarization")
-    try:
-        summary = summarizer(pdf_text, max_length=250, min_length=25, do_sample=False)
-    except Exception as e:
-        print("An error occurred while summarizing the article:", e)
-        summary = "Unable to summarize the article due to an error (file too large)."
+                summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+                try:
+                    summary = summarizer(pdf_text, max_length=250, min_length=25, do_sample=False)
+                    summary_text = summary[0]["summary_text"]
+                except Exception as e:
+                    print("An error occurred while summarizing the article:", e)
+                    summary = "Unable to summarize the article due to an error (file too large)."
+                    
+            st.success("Successfully Reading PDF")
+            st.toast('Successful Read PDF', icon='✅')
 
-    #Display extracted PDF text in the sidebar
-    st.sidebar.subheader("Summary:")
-    st.sidebar.write(summary[0]["summary_text"])
+            # Update the previous uploaded file in session state
+            st.session_state.previous_uploaded_file = uploaded_file
+
+        else:
+            pdf_text = extract_text_from_pdf(uploaded_file)
+
+            summarizer = pipeline("summarization", model="Falconsai/text_summarization")
+            try:
+                summary = summarizer(pdf_text, max_length=250, min_length=25, do_sample=False)
+                summary_text = summary[0]["summary_text"]
+            except Exception as e:
+                print("An error occurred while summarizing the article:", e)
+                summary = "Unable to summarize the article due to an error (file too large)."
+
+
+#Display extracted PDF text in the sidebar
+st.sidebar.subheader("Summary:")
+st.sidebar.write(summary_text)
+
+st.sidebar.subheader("Options:")
+# Create two columns
+col1, col2 = st.sidebar.columns([2, 3])
+
+# Button to clear chat
+if col1.button("Clear chat", on_click=reset_conversation):
+    pass
+
+
+if col2.button("Text-to-Speech of Summarisation"):
+    with st.spinner("Reading summarisation"):
+        textToSpeech(summary_text)
+        st.toast('Summarisation Speech Finish', icon='🔊')
+
+st.sidebar.write('')
+st.sidebar.write('')
     
-    # Display extracted PDF text in the sidebar
-    st.sidebar.subheader("Extracted PDF Text:")
-    st.sidebar.write(pdf_text)
+# Display extracted PDF text in the sidebar
+st.sidebar.subheader("Extracted PDF Text:")
+st.sidebar.write(pdf_text)
+
 
     
 if "messages" not in st.session_state or st.session_state.messages is None:
