@@ -3,4 +3,4 @@ PyPDF2
 transformers
 torch
 autocorrect
-pyttsx3
+
