@@ -102,7 +102,22 @@ if uploaded_file:
     if previous_uploaded_file is None:
         # Perform any necessary initialization
         # For example, you might want to set previous_uploaded_file to the current uploaded_file
-        st.session_state.previous_uploaded_file = uploaded_file
+        with st.spinner("Reading PDF....."):
+                pdf_text = extract_text_from_pdf(uploaded_file)
+
+                summarizer = pipeline("summarization", model="Falconsai/text_summarization")
+                try:
+                    summary = summarizer(pdf_text, max_length=250, min_length=25, do_sample=False)
+                    summary_text = summary[0]["summary_text"]
+                except Exception as e:
+                    print("An error occurred while summarizing the article:", e)
+                    summary = "Unable to summarize the article due to an error (file too large)."
+                    
+            st.success("Successfully Reading PDF")
+            st.toast('Successful Read PDF', icon='✅')
+
+            # Update the previous uploaded file in session state
+            st.session_state.previous_uploaded_file = uploaded_file
             
     else:
         # Check if the current uploaded file is different from the previous one
