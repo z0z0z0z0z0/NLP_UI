@@ -111,7 +111,7 @@ if uploaded_file:
             with st.spinner("Reading PDF....."):
                 pdf_text = extract_text_from_pdf(uploaded_file)
 
-                summarizer = pipeline("summarization", model="facebook/bart-large-cnn")
+                summarizer = pipeline("summarization", model="Falconsai/text_summarization")
                 try:
                     summary = summarizer(pdf_text, max_length=250, min_length=25, do_sample=False)
                     summary_text = summary[0]["summary_text"]
