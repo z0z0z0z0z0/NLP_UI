@@ -6,7 +6,6 @@ from transformers import AutoModelForQuestionAnswering, AutoTokenizer, pipeline
 import time
 from autocorrect import Speller
 import warnings
-import pyttsx3
 
 # Ignore all warnings
 warnings.filterwarnings("ignore")
@@ -165,10 +164,10 @@ if col1.button("Clear chat", on_click=reset_conversation):
     pass
 
 
-if col2.button("Text-to-Speech of Summarisation"):
-    with st.spinner("Reading summarisation"):
-        textToSpeech(summary_text)
-        st.toast('Summarisation Speech Finish', icon='🔊')
+# if col2.button("Text-to-Speech of Summarisation"):
+#     with st.spinner("Reading summarisation"):
+#         textToSpeech(summary_text)
+#         st.toast('Summarisation Speech Finish', icon='🔊')
 
 st.sidebar.write('')
 st.sidebar.write('')
